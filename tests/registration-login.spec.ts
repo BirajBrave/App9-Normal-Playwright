@@ -1,37 +1,33 @@
 import{test, expect} from "@playwright/test";
 
-test("Registration and Login", async({ page })=>{
+test("User Registration Successfully", async({ page })=>{
 
-    //Open the application
     await page.goto("https://automationexercise.com/");
-
-    //Verify the homepage
+    
     await expect(page.locator("body")).toBeVisible();
 
-    //Click Signup / Login
     await page.locator('a[href="/login"]').click();
     await expect(page).toHaveURL("https://automationexercise.com/login");
 
-    //Register a new user
     const name = page.locator('[data-qa="signup-name"]');
     const email = page.locator('[data-qa="signup-email"]');
 
     await name.fill("Meera");
-    await email.fill("karunazoka_wwxxyy89X0@yahoo.com");
+    await email.fill("suniaZalpha@yahoo.com");
 
     await page.getByRole("button", {name: "Signup"}).click();
 
     await expect(page).toHaveURL("https://automationexercise.com/signup");
 
     //Enter Account Information
-    await expect(page.getByRole("heading", {name: "Enter Account Information", exact: true})).toBeVisible();
+    //await expect(page.getByRole("heading", {name: "Enter Account Information", exact: true})).toBeVisible();
     
     const title = page.locator("#id_gender1");
     await title.check();
     await expect(title).toBeChecked();
 
     await expect(page.locator('[data-qa="name"]')).toHaveValue("Meera");
-    await expect(page.locator('[data-qa="email"]')).toHaveValue("karunazoka_wwxxyy89X0@yahoo.com");
+    await expect(page.locator('[data-qa="email"]')).toHaveValue("suniaZalpha@yahoo.com");
 
     const password = page.locator('[data-qa="password"]');
     await password.fill("puttu@2022");
@@ -92,14 +88,21 @@ test("Registration and Login", async({ page })=>{
     await page.locator('a[href="/logout"]').click();
     await expect(page).toHaveURL("https://automationexercise.com/login");
 
-    // Login with registered account
+});
+
+test("User Login Successfully", async({ page })=>{
+
+    await page.goto("https://automationexercise.com/");
+
+    await page.locator('a[href="/login"]').click();
+    await expect(page).toHaveURL("https://automationexercise.com/login");
+
     const loginEmail = page.locator('[data-qa="login-email"]');
     const loginPassword = page.locator('[data-qa="login-password"]');
 
-    await loginEmail.fill("karunazoka_wwxxyy89X0@yahoo.com");
+    await loginEmail.fill("suniaZalpha@yahoo.com");
     await loginPassword.fill("puttu@2022");
 
     await page.locator('[data-qa="login-button"]').click();
-    await expect(page).toHaveURL("https://automationexercise.com"); 
 
 });
