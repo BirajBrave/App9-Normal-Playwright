@@ -1,5 +1,8 @@
 import{test, expect} from "@playwright/test";
 
+const uniqueEmail = `meera_${Date.now()}_${Math.floor(Math.random() * 10000)}@example.com`;
+const testPassword = "puttu@2022";
+
 test("User Registration Successfully", async({ page })=>{
 
     await page.goto("https://automationexercise.com/");
@@ -13,21 +16,21 @@ test("User Registration Successfully", async({ page })=>{
     const email = page.locator('[data-qa="signup-email"]');
 
     await name.fill("Meera");
-    await email.fill("suniaZalpha@yahoo.com");
+    await email.fill(uniqueEmail);
 
     await page.getByRole("button", {name: "Signup"}).click();
 
     await expect(page).toHaveURL("https://automationexercise.com/signup");
 
     //Enter Account Information
-    //await expect(page.getByRole("heading", {name: "Enter Account Information", exact: true})).toBeVisible();
+    await expect(page.getByRole("heading", {name: "Enter Account Information", exact: true})).toBeVisible();
     
     const title = page.locator("#id_gender1");
     await title.check();
     await expect(title).toBeChecked();
 
     await expect(page.locator('[data-qa="name"]')).toHaveValue("Meera");
-    await expect(page.locator('[data-qa="email"]')).toHaveValue("suniaZalpha@yahoo.com");
+    await expect(page.locator('[data-qa="email"]')).toHaveValue(uniqueEmail);
 
     const password = page.locator('[data-qa="password"]');
     await password.fill("puttu@2022");
@@ -100,9 +103,11 @@ test("User Login Successfully", async({ page })=>{
     const loginEmail = page.locator('[data-qa="login-email"]');
     const loginPassword = page.locator('[data-qa="login-password"]');
 
-    await loginEmail.fill("suniaZalpha@yahoo.com");
+    await page.locator('[data-qa="login-email"]').fill(uniqueEmail);
     await loginPassword.fill("puttu@2022");
 
     await page.locator('[data-qa="login-button"]').click();
+    await expect(page.locator('a[href="/logout"]')).toBeVisible();
+    await expect(page).toHaveURL("https://automationexercise.com/");
 
 });
